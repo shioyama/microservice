@@ -8,6 +8,7 @@ gem 'erubis'
 gem 'tilt'
 gem 'paymill'
 gem 'roadie'
+gem 'pry-byebug'
 
 group :development, :test do
   gem 'rspec'
