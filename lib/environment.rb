@@ -9,10 +9,10 @@ module Environment
     def set
       pony_config
 
-      Resources.front_url = ENV['JSM_FRONT_URL']
+      Resources.front_url = ENV['JSM_FRONT_URL'] || "http://localhost:4000/front"
       Mailer.purchases_email = ENV['JSM_PURCHASES_EMAIL']
       Mailer.errors_email = ENV['JSM_ERRORS_EMAIL']
-      Payment.method = ENV['JSM_PAYMENT_METHOD']
+      Payment.method = ENV['JSM_PAYMENT_METHOD'] || "paymill"
       Paymill.api_key = ENV['JSM_PAYMILL_PRIVATE_KEY']
 
       fail(FrontURLNotSet) unless Resources.front_url
@@ -28,13 +28,13 @@ module Environment
     def pony_config
       opts = {
         host: ENV['JSM_SMTP_HOST'],
-        address: ENV['JSM_SMTP_ADDRESS'],
-        port: ENV['JSM_SMTP_PORT'],
+        address: ENV['JSM_SMTP_ADDRESS'] || "smtp.gmail.com",
+        port: ENV['JSM_SMTP_PORT'] || "587",
         user_name: ENV['JSM_SMTP_USER'],
         password: ENV['JSM_SMTP_PASS'],
-        domain: ENV['JSM_SMTP_DOMAIN'],
-        authentication: ENV['JSM_SMTP_AUTH'],
-        enable_starttls_auto: ENV['JSM_SMTP_START_TLS_AUTO']
+        domain: ENV['JSM_SMTP_DOMAIN'] || "localhost.localdomain",
+        authentication: ENV['JSM_SMTP_AUTH'] || :plain,
+        enable_starttls_auto: true
       }.select { |_k, v| !v.nil? }
 
       fail(EmailOptionsNotSet) if opts.empty?
